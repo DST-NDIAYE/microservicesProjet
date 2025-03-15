@@ -32,11 +32,10 @@ kind: Service
 metadata:
   name: service-produit
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: service-produit
   ports:
     - protocol: TCP
       port: 8081
       targetPort: 8081
-      nodePort: 30001  # Kubernetes expose l'application sur ce port
