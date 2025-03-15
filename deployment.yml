@@ -26,7 +26,7 @@ spec:
               value: "org.hibernate.dialect.H2Dialect"
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               value: "update"
-
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -39,4 +39,4 @@ spec:
     - protocol: TCP
       port: 8081
       targetPort: 8081
-      nodePort: 30001  # L'application sera accessible sur ce port
+      nodePort: 30001  # Kubernetes expose l'application sur ce port
