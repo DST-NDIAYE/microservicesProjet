@@ -2,7 +2,7 @@ FROM openjdk:21-jdk-slim
 
 WORKDIR /app
 
-COPY target/microservice-produits-0.0.1-SNAPSHOT.jar app.jar
+COPY target/service-produit-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8081
 
