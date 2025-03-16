@@ -42,4 +42,15 @@ public class UtilisateurController {
         utilisateurService.supprimerUtilisateur(id);
         return ResponseEntity.noContent().build();
     }
+
+    // ✅ Récupérer un utilisateur par son ID (Ajouté)
+@GetMapping("/{id}")
+public ResponseEntity<Utilisateur> getUtilisateurById(@PathVariable Long id) {
+    Utilisateur utilisateur = utilisateurService.getUtilisateurById(id);
+    if (utilisateur != null) {
+        return ResponseEntity.ok(utilisateur);
+    } else {
+        return ResponseEntity.notFound().build();
+    }
+}
 }

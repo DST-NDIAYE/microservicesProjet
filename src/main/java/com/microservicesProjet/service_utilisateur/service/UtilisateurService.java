@@ -41,4 +41,8 @@ public class UtilisateurService {
     public void supprimerUtilisateur(Long id) {
         utilisateurRepository.deleteById(id);
     }
+     // ✅ Récupérer un utilisateur par ID (Ajouté)
+     public Utilisateur getUtilisateurById(Long id) {
+        return utilisateurRepository.findById(id).orElse(null);
+    }
 }
