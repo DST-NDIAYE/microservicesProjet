@@ -40,9 +40,10 @@ public class ProduitController {
         produitService.supprimerProduit(id);
     }
 
-    // ✅ Nouveau endpoint pour récupérer un produit et son utilisateur
     @GetMapping("/{produitId}/utilisateur/{utilisateurId}")
     public Produit getProduitAvecUtilisateur(@PathVariable Long produitId, @PathVariable Long utilisateurId) {
         return produitService.getProduitAvecUtilisateur(produitId, utilisateurId);
     }
+
+    
 }

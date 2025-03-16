@@ -2,6 +2,8 @@ package com.microservicesProjet;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class ServiceProduitApplication {
@@ -10,4 +12,8 @@ public class ServiceProduitApplication {
 		SpringApplication.run(ServiceProduitApplication.class, args);
 	}
 
+	 @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 }

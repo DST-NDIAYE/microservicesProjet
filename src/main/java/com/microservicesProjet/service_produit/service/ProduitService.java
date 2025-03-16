@@ -5,7 +5,9 @@ import com.microservicesProjet.service_produit.model.Produit;
 import com.microservicesProjet.service_utilisateur.model.Utilisateur;
 import com.microservicesProjet.service_produit.repository.ProduitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +15,8 @@ import java.util.Optional;
 @Service
 public class ProduitService {
 
-    @Autowired
-    private ProduitRepository produitRepository;
+    // @Autowired
+    // private ProduitRepository produitRepository;
 
     @Autowired
     private UtilisateurClient utilisateurClient; // ✅ Injection du client utilisateur
@@ -45,16 +47,32 @@ public class ProduitService {
         produitRepository.deleteById(id);
     }
 
-    // ✅ Nouvelle méthode pour récupérer un produit avec l'utilisateur
+
+    private final ProduitRepository produitRepository;
+    private final RestTemplate restTemplate;
+
+    @Autowired
+    public ProduitService(ProduitRepository produitRepository, RestTemplate restTemplate) {
+        this.produitRepository = produitRepository;
+        this.restTemplate = restTemplate;
+    }
+
     public Produit getProduitAvecUtilisateur(Long produitId, Long utilisateurId) {
+        // Récupérer le produit
         Produit produit = produitRepository.findById(produitId)
                 .orElseThrow(() -> new RuntimeException("Produit non trouvé !"));
 
-        Utilisateur utilisateur = utilisateurClient.getUtilisateurById(utilisateurId);
+        // Récupérer l'utilisateur depuis `service-utilisateur`
+        String url = "http://localhost:8081/api/utilisateurs/" + utilisateurId;
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-        // Juste pour la démonstration, on peut retourner un objet combiné si nécessaire
-        System.out.println("Produit acheté par l'utilisateur : " + utilisateur.getNom());
+        if (response.getStatusCode().is2xxSuccessful()) {
+            String utilisateur = response.getBody();
+            produit.setDescription(produit.getDescription() + " - Utilisateur : " + utilisateur);
+        } else {
+            produit.setDescription(produit.getDescription() + " - Utilisateur inconnu");
+        }
 
-        return produit; // En pratique, tu peux enrichir l'objet avant de le renvoyer
+        return produit;
     }
 }
