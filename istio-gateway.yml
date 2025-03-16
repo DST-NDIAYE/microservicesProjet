@@ -32,3 +32,11 @@ spec:
             host: service-produit
             port:
               number: 8081
+    - match:
+        - uri:
+            prefix: /swagger-ui
+      route:
+        - destination:
+            host: service-produit
+            port:
+              number: 8081
